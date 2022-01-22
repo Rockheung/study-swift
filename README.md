@@ -34,7 +34,16 @@ var i: Float = 8.93522
 // 8 bytes, 전체 15자리
 var di: Double = 8.9999999
 // 한 글자
-var c: Character = "4", s = " "
+var c: Character = "4", space = " "
 // 문자열
-var s: String = "Hello"
+var s: String = "Hello", empty = ""
+// 참거짓
+var b: Boolean = true
+// Other: UInt, UInt64, Int32
+
+// 타입 확인
+print(type(of: s))  // -> String
 ```
+
+
+## Type Conversion
