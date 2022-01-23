@@ -48,11 +48,6 @@ switch Int.random(in: 1...100) {
     break
 }
 
-
-for a in 1...20 {
-  print(a)
-}
-
 print(type(of: (1...10).reversed())) // -> ClosedRange
 type(of: 1...) // -> PartialRangeFrom
 
@@ -79,3 +74,32 @@ type(of: s)
 
 var (_age, child) = s
 print(child, _age)
+
+
+for var y in 3...10 {
+  if y % 3 == 0 {
+    y = 3
+    print(y)
+    continue
+  }
+  print(y)
+}
+
+
+
+var coordinate = (9, 0)
+
+switch coordinate {
+  case (let d, 0), (0, let d):
+    print(d)
+  default:
+    print("Not on X-Axis or Y-Axis")
+}
+
+
+var i: Int = 0
+repeat {
+  print(i)
+  i += 1
+} while i < 4
+

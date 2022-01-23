@@ -150,9 +150,21 @@ print(s.age, s.1)
 // Decomposition
 var (age, child) = s
 print(child)
+
+
+// Tuple with Switch
+var coordinate = (9, 0)
+switch coordinate {
+  case (let d, 0), (0, let d):
+    print(d)
+  default:
+    print("Not on X-Axis or Y-Axis")
+}
 ```
 
 ## Loop
+
+### for
 ```swift
 // let a, 기본적으로 변경 불가능
 for a in 1...20 {
@@ -161,20 +173,88 @@ for a in 1...20 {
 
 // 일부러 y를 변경 가능하게 선언, 그러나 곧 없어질 예정.
 for var y in 3...10 {
-
+  if y % 3 == 0 {
+    y = 3
+    print(y)
+    continue
+  }
+  print y
 }
+/*
+3
+4
+5
+3
+7
+8
+3
+10
+*/
 
 for char in "Hello" {
   print(char)
 }
+/*
+H
+e
+l
+l
+o
+*/
 
 for what in ["apple" ,"banana"] {
   print(what)
 }
+/*
+apple
+banana
+*/
 
 // wild card pattern
 for _ in 4...20 {
-  print()
+  // print(_) -> error: '_' can only appear in a pattern or on the left side of an assignment
+  print("hello")
+}
+```
+
+### while
+```swift
+while 5 > 2 {
+  print("5 is bigger then 2")
 }
 
-````
+var i: Int = 0
+repeat {
+  print(i)
+  i += 1
+} while i < 4
+```
+
+### continue, break
+
+loop 내부에서 해당 턴을 통과하고 계속할지(continue), 아니면 반복을 완전히 종료할지(break) 제어.
+switch문에서의 break와는 조금 다름
+
+
+## Labeled Statements
+
+특정 Loop에 라벨을 붙여 제어할 수 있음.
+
+```swift
+LOOP_1: for i in 2...10 {
+  LOOP_2: for j in 1...9 {
+    if i == 10 {
+      break LOOP_1
+    }
+    print("\(i) x \(j) = \(i*j)")
+  }
+}
+```
+
+
+## Function
+```swift
+func sayHello()  -> Void {
+  print("Hello")
+}
+```
