@@ -254,7 +254,7 @@ LOOP_1: for i in 2...10 {
 
 ## Function
 ```swift
-func sayHello()  -> Void {
-  print("Hello")
+func sayHello(name: String)  -> Void {
+  print("Hello \(name)")
 }
 ```
