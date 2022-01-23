@@ -105,8 +105,8 @@ switch Int.random(in: 1...100) {
 ```
 
 ## Pattern Matching
+패턴 매칭 연산자 `~=`
 ```swift
-패턴 매칭 연산자 ~=
 1...4 ~= y
 // 1 이상 9 이하
 1...9
@@ -297,7 +297,7 @@ alterA(a: &nine) // 원본을 전달한다는 &
 
 print(nine) // 7
 alterA(a: &eight) // error: cannot pass immutable value as inout argument: 'eight' is a 'let' constant
-alterA(a: &123) // error: cannot pass immutable value as inout argument: literals are not mutable
+alterA(a: &123) // error: cannot pass immutable value as inout argument: literals are not mutable 
 
 ```
 
