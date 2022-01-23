@@ -1,11 +1,5 @@
 .DS_Store
 
-## Playgrounds
-timeline.xctimeline
-playground.xcworkspace
-
-
-
 ### Swift ###
 # Xcode
 #
@@ -13,3 +7,7 @@ playground.xcworkspace
 
 ## User settings
 xcuserdata/
+
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace

@@ -257,4 +257,47 @@ LOOP_1: for i in 2...10 {
 func sayHello(name: String)  -> Void {
   print("Hello \(name)")
 }
+
+// print(items: Any..., separator: String, terminator: String)
+print("a", "b", "c", separator: "??", terminator: "\n\n\n")
+
+// overloading
+func sayHello(name: String...) -> Void {
+    print(type(of: name))
+    print(name, separator: "&")
+}
+
+func sayHello(name: Int...) -> Void {
+    print(type(of: name))
+    print(name, separator: "&")
+}
+
+sayHello(name: "John")
+// Swift에서는 예쁘게 배열을 펼쳐주는 그런건 안되는 듯.
+// 알아서 Arguments에 맞는 함수를 실행한다.
+sayHello(name: "hello", "jo")
+sayHello(name: 3,5,2,9)
 ```
+
+
+```swift
+func printA (a: Int) {
+  a = 7 // error: cannot assign to value: 'a' is a 'let' constant
+}
+
+func alterA (a: inout Int) {
+  a = 7 // error: cannot assign to value: 'a' is a 'let' constant
+  print(a)
+}
+
+var nine = 9
+let eight = 8
+
+alterA(a: &nine) // 원본을 전달한다는 &
+
+print(nine) // 7
+alterA(a: &eight) // error: cannot pass immutable value as inout argument: 'eight' is a 'let' constant
+alterA(a: &123) // error: cannot pass immutable value as inout argument: literals are not mutable
+
+```
+
