@@ -3,13 +3,13 @@ func sayHello(name: String) -> Void {
   print("Hello \(name)")
 }
 
-func sayHello(name: String...) -> Void {
+func sayHello(_ name: String...) -> Void {
     print(type(of: name))
     print(name, separator: "&")
 }
 
 
-func sayHello(name: Int...) -> Void {
+func sayHello(_ name: Int...) -> Void {
     print(type(of: name))
     print(name, separator: "&")
 }
@@ -17,8 +17,8 @@ func sayHello(name: Int...) -> Void {
 
 sayHello(name: "John")
 // Swift에서는 예쁘게 배열을 펼쳐주는 그런건 안되는 듯.
-sayHello(name: "hello", "jo")
-sayHello(name: 3,5,2,9)
+sayHello("hello", "jo")
+sayHello(3,5,2,9)
 
 print("a", "b", "c", separator: "-", terminator: "\n\n\n")
 
@@ -43,5 +43,12 @@ alterA(a: &nine)
 print(nine)
 
 
-alterA(a: &eight)
-alterA(a: &123) // literal 값도 안됨
+//alterA(a: &eight)
+//alterA(a: &123) // literal 값도 안됨
+
+
+func returnSome () -> String {
+  return "hi"
+}
+
+returnSome()

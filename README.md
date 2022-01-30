@@ -262,7 +262,7 @@ func sayHello(name: String)  -> Void {
 print("a", "b", "c", separator: "??", terminator: "\n\n\n")
 
 // overloading
-func sayHello(name: String...) -> Void {
+func sayHello(_ name: String...) -> Void {
     print(type(of: name))
     print(name, separator: "&")
 }
@@ -279,6 +279,10 @@ sayHello(name: "hello", "jo")
 sayHello(name: 3,5,2,9)
 ```
 
+### inout 
+
+내부적으로는 `copy-in copy-out`매커니즘으로 복사는 동일하게 되나
+사용하는 우린 그냥 마치 reference가 전달되는 것 처럼 이해하고 쓰면 된다.
 
 ```swift
 func printA (a: Int) {
@@ -286,8 +290,7 @@ func printA (a: Int) {
 }
 
 func alterA (a: inout Int) {
-  a = 7 // error: cannot assign to value: 'a' is a 'let' constant
-  print(a)
+  a = 7
 }
 
 var nine = 9
@@ -298,6 +301,51 @@ alterA(a: &nine) // 원본을 전달한다는 &
 print(nine) // 7
 alterA(a: &eight) // error: cannot pass immutable value as inout argument: 'eight' is a 'let' constant
 alterA(a: &123) // error: cannot pass immutable value as inout argument: literals are not mutable 
-
+// 가변파라미터(:여러개의 파라미터)로 선언된 것도 inout 키워드 쓸 수 없다.
 ```
+
+
+### guard
+
+예외처리 분기를 짤 때, 예외 상황이 발생할 경우 early exit - `else { return }` 구문을 강제하는 정도인 듯 하다.
+
+```swift
+func ifLogic (a: Int) {
+    if 5 > a {
+        print("Do true stuff")
+    } else {
+        print("Never be here")
+    }
+}
+
+func guardLogic (a: Int) {
+    guard 5 > a else {
+        print("Never be here")
+        return
+    }
+    print("Do true stuff")
+}
+
+guardLogic(a: 6)
+ifLogic(a: 6)
+```
+
+
+### `@discardableResult`
+
+함수의 결과값이 있다면, CPU 제어권도 그 결과를 받아야 하기 때문에 따라다니게 된다. 항상 결과값이 있게 됨.
+
+`@attribute`키워드로 함수나 타입에 추가적인 속성을 정의할 수 있다.`@discardableResult`도 그중 하나. 몇개 없긴 함.
+
+컴파일러에게 해당 함수의 결과값을 무시해라~ 하는 목적
+
+```swift
+@discardableResult // swift 5.2 부터 아래 경고를 없애기 위해 컴파일러한테 알려주는 attribute
+func returnSome () {
+  return "hi"
+}
+
+returnSome() // 'returnSome()' is unused ~ 경고가 뜸
+
+_ = returnSome() // swift 5.2 전까지 사용하던 클래식한 방식
 
