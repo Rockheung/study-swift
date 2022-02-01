@@ -15,14 +15,12 @@ let age = 29
 age = 30 // Cannot assign to value: 'age' is a 'let' constant
 ```
 
-
 ## String Interpolation
 
 ```swift
 var name = "Rock"
 print("My name is \(name)")
 ```
-
 
 ## Data Type
 
@@ -48,7 +46,6 @@ var b: Boolean = true
 // 타입 확인
 print(type(of: s))  // -> String
 ```
-
 
 ## Type Conversion
 
@@ -105,7 +102,9 @@ switch Int.random(in: 1...100) {
 ```
 
 ## Pattern Matching
+
 패턴 매칭 연산자 `~=`
+
 ```swift
 1...4 ~= y
 // 1 이상 9 이하
@@ -119,12 +118,13 @@ switch Int.random(in: 1...100) {
 ```
 
 ## 삼항연산자
+
 ```swift
 var name = 7 > a ? "유치원" : "초등학생"
 ```
 
-
 ## Range Type
+
 Range type(ex: 3...20) 은 오름차순만 가능. reversed()를 이용하여 내림차순 사용 가능
 
 ```swift
@@ -137,6 +137,7 @@ type(of: stride(from: 3, to: 9, by: 2)) // -> StrideTo<Int>
 ```
 
 ## Tuple
+
 ```swift
 var r = (5,7,"오이")
 print(r.1) // -> 7
@@ -165,6 +166,7 @@ switch coordinate {
 ## Loop
 
 ### for
+
 ```swift
 // let a, 기본적으로 변경 불가능
 for a in 1...20 {
@@ -218,6 +220,7 @@ for _ in 4...20 {
 ```
 
 ### while
+
 ```swift
 while 5 > 2 {
   print("5 is bigger then 2")
@@ -235,7 +238,6 @@ repeat {
 loop 내부에서 해당 턴을 통과하고 계속할지(continue), 아니면 반복을 완전히 종료할지(break) 제어.
 switch문에서의 break와는 조금 다름
 
-
 ## Labeled Statements
 
 특정 Loop에 라벨을 붙여 제어할 수 있음.
@@ -251,8 +253,8 @@ LOOP_1: for i in 2...10 {
 }
 ```
 
-
 ## Function
+
 ```swift
 func sayHello(name: String)  -> Void {
   print("Hello \(name)")
@@ -279,7 +281,7 @@ sayHello(name: "hello", "jo")
 sayHello(name: 3,5,2,9)
 ```
 
-### inout 
+### inout
 
 내부적으로는 `copy-in copy-out`매커니즘으로 복사는 동일하게 되나
 사용하는 우린 그냥 마치 reference가 전달되는 것 처럼 이해하고 쓰면 된다.
@@ -300,10 +302,9 @@ alterA(a: &nine) // 원본을 전달한다는 &
 
 print(nine) // 7
 alterA(a: &eight) // error: cannot pass immutable value as inout argument: 'eight' is a 'let' constant
-alterA(a: &123) // error: cannot pass immutable value as inout argument: literals are not mutable 
+alterA(a: &123) // error: cannot pass immutable value as inout argument: literals are not mutable
 // 가변파라미터(:여러개의 파라미터)로 선언된 것도 inout 키워드 쓸 수 없다.
 ```
-
 
 ### guard
 
@@ -330,7 +331,6 @@ guardLogic(a: 6)
 ifLogic(a: 6)
 ```
 
-
 ### `@discardableResult`
 
 함수의 결과값이 있다면, CPU 제어권도 그 결과를 받아야 하기 때문에 따라다니게 된다. 항상 결과값이 있게 됨.
@@ -348,4 +348,117 @@ func returnSome () {
 returnSome() // 'returnSome()' is unused ~ 경고가 뜸
 
 _ = returnSome() // swift 5.2 전까지 사용하던 클래식한 방식
+```
 
+## Optional Type
+
+```swift
+var n : Int?
+print(n) // warning: Expression implicitly coerced from 'Int?' to 'Any'
+
+var m : Int
+print(m) // error: Variable 'm' used before being initialized
+
+
+type(of: n) // Optional<Int>
+type(of: m) // Int
+n = 10
+type(of: n!) // Int
+
+
+n + o // error: Binary operator '+' cannot be applied to two 'Int?' operands
+n! + o!
+
+```
+
+### unwrapping
+
+```swift
+var optI: Int? = 10
+
+print(optI!)
+
+if optI != nil {
+    print(optI!)
+}
+
+// optional binding
+// 옵셔널 표현식이 j라는 상수에 담긴다면.
+// var j도 상관없으나 딱히 필요한 경우가 잘 없다
+if let j = optI {
+    print(j)
+}
+
+func unwrap () {
+    guard let j = optI else { return }
+    print(j)
+}
+
+// Nil-Coalescing(Nil 병합 연산) - 코얼레싱
+print(optI ?? 0)
+
+// Nil-Coalescing & 삼항연산
+print(optI != nil ? optI! : 0)
+```
+
+### optional chaining
+
+```swift
+class Dog {
+    var name: String?
+    var age: Int?
+    func bark() {
+        print("Bark!")
+    }
+}
+
+let foo: Dog? = nil
+foo?.bark() // nil
+```
+
+### IUO(Implicitly Unwrapped Optionals) Type
+
+nil을 할당할 수도 있지만(문법적으로) 로직상 값이 nil이 아님을 확신할 때에 사용
+스토리보드와 Outlet 연결시 주로 사용
+
+```swift
+var userAge: Int! = 1
+```
+
+### optional parameter
+
+```swift
+func sayHi(_ name: String, age: Int? = nil) {
+    print("Hi, \(name).")
+    if let _age = age {
+        print("You might be \(_age), right?")
+    }
+}
+
+sayHi("John") // Hi, John.
+sayHi("Tom", age: 100) // Hi, Tom.\nYou might be 100, right?
+```
+
+
+## Collection
+
+- Array, Dictionary, Set
+
+### Array
+
+- method
+    - subscript (ex: `arr[9]`)
+        - `arr[arr.startIndex]` 
+        - `arr[arr.lastIndex - 1]` 
+        - `arr[arr.index(i: 2, offsetBy: 3)]` 
+    - `count`
+    - `isEmpty`
+    - `contains(7)`
+    - `randomElements("Hi")`
+    - `swapAt(0,1)`
+    - `first`
+    - `last`
+    - `startIndex`
+    - `endIndex`
+    - `firstIndex(of: )`
+    - `lastIndex(of: )`
