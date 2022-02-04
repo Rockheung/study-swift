@@ -450,7 +450,9 @@ sayHi("Tom", age: 100) // Hi, Tom.\nYou might be 100, right?
     - subscript (ex: `arr[9]`)
         - `arr[arr.startIndex]` 
         - `arr[arr.lastIndex - 1]` 
-        - `arr[arr.index(i: 2, offsetBy: 3)]` 
+        - `arr[arr.index(i: 2, offsetBy: 3)]`
+        - `arr[0...2]`
+        - `arr(0...2, with: [4,1,2])` ~ `arr[0...2] = [4,1,2]`
     - `count`
     - `isEmpty`
     - `contains(7)`
@@ -462,3 +464,62 @@ sayHi("Tom", age: 100) // Hi, Tom.\nYou might be 100, right?
     - `endIndex`
     - `firstIndex(of: )`
     - `lastIndex(of: )`
+    - `removeAll(keepingCapacity: Bool)`
+
+    - `sort()` ~ 원본을 변경시킴
+    - `sorted()` ~ 새로운 배열을 리턴함
+    - `reverse()`
+    - `reversed()`
+    - `shuffle()`
+    - `shuffled()`
+
+    - `arr1 ~= arr2`
+
+```swift
+if let foundIdx = arr.lastIndex(of: 4) {
+    arr.remove(at: foundIdx)
+}
+
+if !arr.isEmpty {
+    print("\(arr.count)")
+}
+```
+
+```swift
+for item in arr.enumerated() {
+    // named tuple로 튀어나온다
+    print("\(item.0): \(item.1)")
+}
+
+for (offset, element) in arr.enumerated() {
+    print("\(offset): \(element)")
+}
+
+for (offset, element) in arr.enumerated().reversed() {
+    print("\(offset): \(element)")
+}
+```
+
+### Dictionary
+
+- Hashable?
+어떤 타입이 Hash Function에 넣을 수 있다, 그러니까 같은 input에 항상 같은 output이 나온다는 뜻. Swift에서는 기본타입이 모두 Hashable.
+
+- Dictionary의 키값은 Hashable한 값만 사용 가능함.
+
+- 순서가 없다! 출력할때마다 순서가 지멋대로인 점 주의
+
+```swift
+let dic: Dictionary<Int, String> = [0: "5", 9: "Cloud"]
+print(dic) // [0: "5", 9: "Cloud"]
+
+let dicEmpty: Dictionary<Int, String> = [:]
+let dicEmpty2 = Dictionary<Int, String>()
+let dicEmpty3 = [Int: String]()
+
+// all true
+dicEmpty == dicEmpty2
+dicEmpty2 == dicEmpty3
+dicEmpty == dicEmpty3
+```
+
