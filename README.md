@@ -523,3 +523,82 @@ dicEmpty2 == dicEmpty3
 dicEmpty == dicEmpty3
 ```
 
+- method
+    - subscript (ex: `dic["A"]`)
+        - Optional
+        - `dic["one", default: 1]` nil 방지됨
+        - `dic["A"] = nil` A 키가 삭제됨
+    - `randomElement`
+    - `keys`
+    - `values`
+    - `count`
+    - `isEmpty`
+    - `update`
+    - `remove`
+    - `updateValue` : upsert(update & insert). 기존 값을 반환
+    - `removeValue`
+
+- 중첩
+
+값이 Array
+
+```swift
+var dic = [String: [String]]()
+dic["A"] = ["1", "2"]
+```
+
+값이 Dictionary
+
+```swift
+var dic = [String: [String: Int]]()
+dic["A"] = ["1": 1, "2": 2]
+```
+
+- 반복문과
+
+enumerate 필요 없다. 한 쪽을 안  쓰려면 `_`활용
+```swift 
+for (key, value) in dic {
+    print("\(key)" : "\(value)"
+}
+```
+
+
+### Set
+
+Hashable. 정렬 속도 < 검색 속도 인 경우에 사용할 수 있음. 
+부분집합, 상위집합, 서로소 같은 개념을 사용할 수 있다.
+
+```swift
+let emptySet: Set<Int> = []
+let emptySet2: Set<Int>()
+````
+
+- method
+    - subscript 구문은 없다.
+    - `count`
+    - `isEmpty`
+    - `contains()`
+    - `randomElement()`
+    - `update()`
+    - `remove()`
+    - `b.isSubset(of: a)` - 부분집합
+    - `b.isStrictSubset(of: a)` - 진부분집합
+    - `a.isSuperset(of: b)` - 상위집합
+    - `a.isStrictSuperset(of: b)` - 진상위집합
+    - `a.isDisjoint(with: c)` - 서로소
+    - `a.union(c)` - 합집합
+    - `a.formUnion(c)` - 합집합, 원본 변형시킴
+    - `a.intersection(b)` - 교집합
+    - `a.subtracting(b)`- 차집합
+    - `a.symmetricDifference(b) - 대칭자집합
+    - `a.formSymmetricDifference(b) - 대칭자집합 - 원본 변경
+
+```swift
+let nums: Set<Int> = [5,7,3,6,9]
+for num in nums {
+    print(num)
+}
+```
+
+
