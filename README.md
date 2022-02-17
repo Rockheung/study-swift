@@ -593,6 +593,7 @@ let emptySet2: Set<Int>()
     - `a.subtracting(b)`- 차집합
     - `a.symmetricDifference(b) - 대칭자집합
     - `a.formSymmetricDifference(b) - 대칭자집합 - 원본 변경
+    - `a.sorted()` -> 배열이 튀낭옴
 
 ```swift
 let nums: Set<Int> = [5,7,3,6,9]
@@ -602,3 +603,194 @@ for num in nums {
 ```
 
 
+## Collection 관련 이론
+
+method 패턴에서 mutable \ immutable 여부를 유추 가능.
+동사형이면 mutable, 분사형이면 immutable로 간주 가능
+
+
+### Foundation Collection - Objective-C
+
+- Class \ Object Type
+    - NSArray \ NSMutableArray
+    - NSDictionary \ NSMutableDictionary
+    - NSSet \ NSMutableSet
+
+
+### `KeyValuePairs`: 순서가 있는 컬렉션
+key가 Hashable할 필요 없음. 최근에 만든 임시적 개념
+
+
+### Copy-On-Write 최적화
+
+코드상에서 값을 복사해서 담는다 해도 실제 값이 바뀌기 전까지는 그냥 하나의 메모리에 담아서 사용할 수도 있다.
+
+
+## 열거형(Enumeration)
+
+소문자!
+
+```swift
+enum Day {
+    case mon
+    case tue
+    case wed
+    case thu
+    case fri
+    case sat
+    case sun
+}
+
+var day = Day.mon
+// 타입을 지정해주면 이렇게 할당 가능
+var day2: Day = .mon
+```
+
+열거형은 무조건 Switch문으로 처리한다고 생각해도 무방.
+
+
+### 열거형의 원시값과 연관값
+
+- 원시값(Raw Value)
+
+아래 Int, String 말고도 hashable하면 모두 사용 가능
+
+```swift
+enum Arrow: String {
+    case up     // "up"
+    case down   // "down"
+    case left   // "left"
+    case right  // "down"
+}
+
+enum Arrow2: Int {
+    case up     // 0
+    case down   // 1
+    case left   // 2
+    case right  // 3
+}
+
+var w: Arrow = .up
+var w2 = Arrow(rawValue: "up")
+var w3 = Arrow2(rawValue: 0)
+```
+
+- 연관값
+
+구체적인 추가 정보를 저장하기 위해 사용, 카테고리를 만드는 거라 보면 된다
+정보가 바뀔때 마다 무한대의 케이스를 만들고 싶을 때 사용한다
+
+```swift
+enum Computer {
+    case cpu(Double)
+    case ram(Int, String)
+    case harddisk(tb: Int)
+}
+```
+
+- 차이 (원시값 | 연관값)
+    - 선언 형식: hashable key | tuple(내맘대로)
+    - 저장 시점: 선언할 때 | 값을 생성할 때.
+    - 같이 못 쓴다.
+
+
+```swift
+var com = Computer.cpu(4.5)
+switch com {
+    case .cpu(4.5):
+        print("fast!")
+    default: 
+        print("dang...")
+}
+```
+
+바인딩도 가능
+
+```swift
+var com = Computer.cpu(4.5)
+switch com {
+    case .cpu(let clock):
+        print("\(clock)ghz, fast!")
+    default: 
+        print("dang...")
+}
+
+```
+
+### Optional ~ 열거형(연관값)의 일종
+
+```swift
+// 이것이 정확한 구현이다.
+enum Optional<Wrapped> {
+    case some(Wrapped)
+    case none
+}
+
+var num: Int? = 9
+
+switch num {
+case .none:
+    print("none!")
+case .some(let n):
+    print("\(n)")
+}
+
+// 위 식을 아래처럼 사용할 수 았도록 해 놓은 것이다.
+if let n = num {
+    print("\(n)")
+}
+
+
+var num2: Optional<Int>
+...
+```
+
+`.none`과 `nil`은 그래서 실은 전적으로 동일한 것.
+
+### Switch문과의 조합과 편의기능
+
+Optional Enum의 경우 두 번 벗겨야 하나, 한 번으로 벗기는 편의 기능을 제공.
+
+```swift
+enum SomeEnum {
+    case left
+    case right
+}
+
+let x: SomeEnum? = .left
+
+switch x {
+case some(let value):
+    switch value {
+    case .left:
+        // Do left stuff
+    case .right:
+        // Do right stuff
+    }
+case .none:
+    // Do nil stuff
+}
+
+// convenience way
+switch x {
+case .some(.left):
+    // Do left stuff
+case .some(.right):
+    // Do right stuff
+case .none:
+    // Do nil stuff
+}
+
+
+// more convenience way
+switch x {
+case .left:
+    // Do left stuff
+case .right:
+    // Do right stuff
+case .nil:
+    // Do nil stuff
+}
+```
+
+열거형 case 패턴도 있다(`if case`, `for case`)
